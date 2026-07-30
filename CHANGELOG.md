@@ -15,6 +15,11 @@ For a more detailed list of past and incoming changes, see the commit history.
 - Editor:
 	- Added new round brush with hard edges, notably efficient for density removal (other brushes tend to leave non-zero density behind)
 
+## Fixes
+
+- Editor:
+	- Prevent painting on an `HTerrainDetailLayer` with an invalid layer index
+
 
 1.8
 ----------

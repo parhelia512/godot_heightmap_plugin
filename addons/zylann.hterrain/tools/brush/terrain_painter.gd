@@ -293,7 +293,8 @@ func paint_input(position: Vector2, pressure: float, shift_pressed: bool) -> boo
 			_paint_mask(data, position, shift_pressed)
 
 		MODE_DETAIL:
-			_paint_detail(data, position, shift_pressed)
+			if not _paint_detail(data, position, shift_pressed):
+				return false
 			
 		_:
 			_logger.error("Unknown mode {0}".format([_mode]))
@@ -552,7 +553,11 @@ func _paint_mask(data: HTerrainData, position: Vector2, shift_pressed: bool) -> 
 	p.paint_input(position)
 
 
-func _paint_detail(data: HTerrainData, position: Vector2, shift_pressed: bool) -> void:
+func _paint_detail(data: HTerrainData, position: Vector2, shift_pressed: bool) -> bool:
+	if data.try_get_map(HTerrainData.CHANNEL_DETAIL, _detail_index) == null:
+		# In the case of detail layers, it can be an invalid index.
+		return false
+	
 	var image := data.get_image(HTerrainData.CHANNEL_DETAIL, _detail_index)
 	var texture := data.get_texture(HTerrainData.CHANNEL_DETAIL, _detail_index, true)
 	var heightmap_texture := data.get_texture(HTerrainData.CHANNEL_HEIGHT, 0)
@@ -573,6 +578,8 @@ func _paint_detail(data: HTerrainData, position: Vector2, shift_pressed: bool) -
 	_set_slope_limit_shader_params(p, heightmap_texture)
 	p.set_image(image, texture)
 	p.paint_input(position)
+	
+	return true
 
 
 func _set_slope_limit_shader_params(p: HT_Painter, heightmap_texture: Texture2D) -> void:
