@@ -39,11 +39,11 @@ func get_point_aabb(cell_x: int, cell_y: int) -> Vector2:
 	return Vector2(b.r, b.g)
 
 
-func get_aabb() -> AABB:
+func get_aabb(size_pixels: Vector2i) -> AABB:
 	# TODO Why subtract 1? I forgot. 
 	#      Could it be the off-by-one from power of two used in HTerrainData?
 	# TODO Optimize for full region, this is actually quite costy
-	return get_region_aabb(Rect2i(Vector2i(), _data.get_size() - Vector2i(1, 1)))
+	return get_region_aabb(Rect2i(Vector2i(), size_pixels - Vector2i(1, 1)))
 
 
 func get_region_aabb(rect_pixels: Rect2i) -> AABB:

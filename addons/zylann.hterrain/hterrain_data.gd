@@ -843,7 +843,7 @@ func has_texture(map_type: int, index: int) -> bool:
 
 
 func get_aabb() -> AABB:
-	return _range_map.get_aabb()
+	return _range_map.get_aabb(Vector2i(1,1) * _resolution)
 
 
 func get_point_aabb(cell_x: int, cell_y: int) -> Vector2:
